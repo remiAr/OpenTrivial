@@ -14,8 +14,24 @@
 
 
 <ion-content padding>
-	<ion-item>
-		<ion-label>Username</ion-label>
-		<ion-input type="text"></ion-input>
-	</ion-item>
+	<div *ngIf="userSeted == true">
+		<ion-item>
+			<img src='https://api.adorable.io/avatars/285/{{userName}}.png'>
+		</ion-item>
+
+		<ion-item>
+			
+		</ion-item>
+
+		<ion-item>
+				<button ion-button item-end (click)="deconnetion()">Déconnexion</button>
+		</ion-item>
+	</div>
+	<div *ngIf="userSeted == false">
+		<ion-item *ngIf="userSeted == false">
+			<ion-label>Username</ion-label>
+			<ion-input type="text" [(ngModel)]="userName"></ion-input>
+			<button ion-button item-end (click)="setUser(userName)">OK</button>
+		</ion-item>
+	</div>
 </ion-content>
