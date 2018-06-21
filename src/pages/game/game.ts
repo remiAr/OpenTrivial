@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
+import { LeaderBoardPage } from '../leader-board/leader-board';
 
 /**
  * Generated class for the GamePage page.
@@ -25,13 +26,15 @@ export class GamePage {
     public userHasClicked: boolean = false;
     public arrayPoints = {};
     public score: number = 0;
-    public time: number= 0;
-    
+    public time: number = 0;
+    public userName: string;
+
     constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider) {
         this.questions = [];
         this.question = {};
         this.answers = [];
         this.difficulty = this.navParams.get('difficulty');
+        this.userName = navParams.get('userName');
         this.arrayPoints = {
             "easy": 5,
             "medium": 10,
@@ -49,7 +52,7 @@ export class GamePage {
         this
             .restProvider
             .getQuestions(difficulty)
-            .then(data =>{
+            .then(data => {
                 this.questions = data;
                 this.questions = this.questions.results;
                 this.loadQuestion();
@@ -60,12 +63,10 @@ export class GamePage {
     }
 
     loadQuestion() {
-        console.log('QU: ', this.questions);
         this.question = this.questions[this.counter];
 
         this.question.category = atob(this.question.category);
         this.question.question = atob(this.question.question);
-        console.log('QU: ', this.questions);
 
         this.shuffleFisherYates();
     }
@@ -99,24 +100,42 @@ export class GamePage {
                 event.target.style.backgroundColor = 'red';
                 this.score = this.score - this.arrayPoints[this.difficulty]
             }
-            setTimeout(()=>{
+
+            setTimeout(() => {
                 this.nextQuestion();
             }, 500);
         }
     }
 
     nextQuestion() {
-        this.userHasClicked = false;
-        this.counter++;
-        this.loadQuestion();
+
+        if (this.counter == 19) {
+            const user = {
+                nickname: this.userName,
+                score: this.score,
+                time: this.time,
+                avatar_url: "https://api.adorable.io/avatars/285/"+this.userName+".png",
+            };
+            this.restProvider.setScoreUser(user).then(()=>{
+                this.navCtrl.setRoot(LeaderBoardPage, {score: this.score, time: this.time});
+            });
+            
+        } else {
+            this.userHasClicked = false;
+            this.counter++;
+            this.loadQuestion();
+        }
+
     }
 
-    timer(){
-        var timer = ()=>{
-            setTimeout(()=>{
+    timer() {
+        var timer = () => {
+            setTimeout(() => {
                 this.time += 1;
-                timer();
-            },1000);
+                if (this.counter < 20) {
+                    timer();
+                }
+            }, 1000);
         }
         timer();
     }

@@ -24,57 +24,53 @@ export class LoginPage {
 	difficulty: string = "medium";
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController) {
-		this.userName = "Jean-Charles";
-		this.userSeted  = true;
+		this.userName = "";
 	}
 
 	ionViewDidLoad() {
-		// const loader = this.loadingCtrl.create({
-		// 	content: "Please wait..."
-		// });
-		// loader.present().then(() => {
-		// 	this.nativeStorage.getItem('myUser')
-		// 		.then(
-		// 			data => {
-		// 				this.userName = data.userName;
-		// 				this.userSeted = true;
-		// 				loader.dismiss();
-		// 			},
-		// 			error => console.error(error)
-		// 		);
-		// });
+		const loader = this.loadingCtrl.create({
+			content: "Please wait..."
+		});
+		loader.present().then(() => {
+			this.nativeStorage.getItem('myUser')
+				.then(
+					data => {
+						loader.dismiss();
+						this.userName = data.userName;
+						this.userSeted = true;
+					},
+					error => loader.dismiss()
+				);
+		});
 	}
 
 	setUser(username) {
-		// const loader = this.loadingCtrl.create({
-		// 	content: "Please wait..."
-		// });
-		// loader.present().then(() => {
+		const loader = this.loadingCtrl.create({
+			content: "Please wait..."
+		});
+		loader.present().then(() => {
 			
-		// 	this.nativeStorage.setItem('myUser', { userName: username })
-		// 		.then(
-		// 			() =>  {
-		// 				loader.dismiss();
-		// 				this.userSeted = true;
-		// 			},
-		// 			error => console.error('Error storing item', error)
-		// 		);
-		// });
-		this.userName = username;
-		this.userSeted = true;
+			this.nativeStorage.setItem('myUser', { userName: username })
+				.then(
+					() =>  {
+						loader.dismiss();
+						this.userName = username;
+						this.userSeted = true;
+					},
+					error => loader.dismiss()
+				);
+		});
 	}
 
 	deconnexion(){
-		// this.nativeStorage.clear().then(()=> {
-		// 	this.userSeted = false;
-		// 	this.userName = "";
-		// }).catch(()=>{});
-		this.userName = "";
-		this.userSeted = false;
+		this.nativeStorage.clear().then(()=> {
+		 	this.userSeted = false;
+			this.userName = "";
+		}).catch(()=>{});
 	}
 
 	playGame(){
-		this.navCtrl.setRoot(GamePage, {difficulty: this.difficulty});
+		this.navCtrl.setRoot(GamePage, {difficulty: this.difficulty, userName: this.userName});
 	}
 
 

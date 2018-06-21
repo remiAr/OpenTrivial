@@ -17,8 +17,12 @@ import { RestProvider } from '../../providers/rest/rest';
 export class LeaderBoardPage {
 
   public result;
+  public score: number;
+  public time: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider) {
+    this.score = navParams.get('score');
+    this.time = navParams.get('time');
   }
 
   ionViewDidLoad() {

@@ -35,5 +35,15 @@ export class RestProvider {
                 });
         });
     }
+    setScoreUser(user){
+        return new Promise(resolve => {
+            this
+                .http
+                .post('https://leaderboard.lp1.eu/api/score', user)
+                .subscribe(data => {
+                    resolve(data);
+                });
+        });
+    }
 
 }
