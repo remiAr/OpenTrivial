@@ -16,26 +16,32 @@
 <ion-content padding>
 	<div *ngIf="userSeted == true">
 		<ion-list no-lines>
-			<ion-item>
-				<img src='https://api.adorable.io/avatars/285/{{userName}}.png'>
+			<ion-item style="text-align: center;">
+				<img style="width: 60%;" src='https://api.adorable.io/avatars/285/{{userName}}.png'>
 			</ion-item>
 			<ion-item>
 				<ion-title>{{userName}}</ion-title>
 			</ion-item>
-			<ion-item>
-					<ion-label>Difficulty</ion-label>
-					<ion-select [(ngModel)]="gaming">
-					  <ion-option value="easy">EASY</ion-option>
-					  <ion-option value="medium">MEDIUM</ion-option>
-					  <ion-option value="hard">HARD</ion-option>
-					</ion-select>
-			</ion-item>
-			<ion-item>
-				<button ion-button (click)="playGame()">Play</button>
-			</ion-item>
-			<ion-item>
-				<button ion-button (click)="deconnexion()">Déconnexion</button>
-			</ion-item>
+			<ion-list radio-group [(ngModel)]="difficulty">
+				<ion-list-header>
+					Difficulty
+				</ion-list-header>
+				<ion-item style="font-size: 14px;">
+					<ion-label>Easy</ion-label>
+					<ion-radio value="easy"></ion-radio>
+				</ion-item>
+				<ion-item style="font-size: 14px;">
+					<ion-label>Medium</ion-label>
+					<ion-radio value="medium"></ion-radio>
+				</ion-item>
+				<ion-item style="font-size: 14px;">
+					<ion-label>Hard</ion-label>
+					<ion-radio value="hard"></ion-radio>
+				</ion-item>
+			</ion-list>
+			<button ion-button (click)="playGame()">Play</button>
+			<br>
+			<button ion-button (click)="deconnexion()">Logout</button>
 		</ion-list>
 
 	</div>
