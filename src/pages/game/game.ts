@@ -23,17 +23,26 @@ export class GamePage {
     public difficulty: string;
     public correctAnswer: boolean = false;
     public userHasClicked: boolean = false;
+    public arrayPoints = {};
+    public score: number = 0;
+    public time: number= 0;
     
     constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider) {
         this.questions = [];
         this.question = {};
         this.answers = [];
         this.difficulty = this.navParams.get('difficulty');
+        this.arrayPoints = {
+            "easy": 5,
+            "medium": 10,
+            "hard": 20
+        };
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad GamePage');
         this.loadQuestions(this.difficulty);
+        this.timer()
     }
 
     loadQuestions(difficulty) {
@@ -85,14 +94,31 @@ export class GamePage {
 
             if (answer === atob(this.question.correct_answer)) {
                 event.target.style.backgroundColor = 'green';
+                this.score = this.score + this.arrayPoints[this.difficulty]
             } else {
-                event.target.style.backgroundColor = 'red';            
+                event.target.style.backgroundColor = 'red';
+                this.score = this.score - this.arrayPoints[this.difficulty]
             }
+            setTimeout(()=>{
+                this.nextQuestion();
+            }, 500);
         }
     }
 
     nextQuestion() {
+        this.userHasClicked = false;
         this.counter++;
+        this.loadQuestion();
+    }
+
+    timer(){
+        var timer = ()=>{
+            setTimeout(()=>{
+                this.time += 1;
+                timer();
+            },1000);
+        }
+        timer();
     }
 
 }

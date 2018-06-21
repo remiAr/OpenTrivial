@@ -14,10 +14,14 @@
 
 
 <ion-content padding>
-    <ion-item no-lines></ion-item>
-    <ion-item no-lines></ion-item>
+    <ion-item no-lines>temps: {{time}}</ion-item>
+    <ion-item no-lines>Score : {{score}}</ion-item>
     <ion-title>
-        {{ question.category }}
+
+        <div style="white-space: initial">
+            {{ question.category }}
+        </div>
+
     </ion-title>
     <ion-item no-lines></ion-item>
     <ion-item no-lines>
