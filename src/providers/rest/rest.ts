@@ -10,12 +10,21 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class RestProvider {
 
-  constructor(public http: HttpClient) {
-    
-  }
+    constructor(public http: HttpClient) {
 
-  getQuestion(){
-    
-  }
+    }
+
+    getQuestions() {
+        return new Promise(resolve => {
+            this
+                .http
+                .get('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
+                .subscribe(data => {
+                    console.log('test');
+                    console.log('data: ', data);
+                });
+        });
+        console.log('test');
+    }
 
 }

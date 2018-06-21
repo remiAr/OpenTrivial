@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { GamePage } from '../game/game';
 
 /**
  * Generated class for the LoginPage page.
@@ -22,44 +23,43 @@ export class LoginPage {
 	userSeted: boolean = false;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController) {
-		this.avatar = "";
 		this.userName = "";
 	}
 
 	ionViewDidLoad() {
-		const loader = this.loadingCtrl.create({
-			content: "Please wait..."
-		});
-		loader.present().then(() => {
-			this.nativeStorage.getItem('myUser')
-				.then(
-					data => {
-						this.userName = data.userName;
-						this.userSeted = true;
-						loader.dismiss();
-					},
-					error => console.error(error)
-				);
-		});
+		// const loader = this.loadingCtrl.create({
+		// 	content: "Please wait..."
+		// });
+		// loader.present().then(() => {
+		// 	this.nativeStorage.getItem('myUser')
+		// 		.then(
+		// 			data => {
+		// 				this.userName = data.userName;
+		// 				this.userSeted = true;
+		// 				loader.dismiss();
+		// 			},
+		// 			error => console.error(error)
+		// 		);
+		// });
 	}
 
 	setUser(username) {
-		const loader = this.loadingCtrl.create({
-			content: "Please wait..."
-		});
-		loader.present().then(() => {
+		// const loader = this.loadingCtrl.create({
+		// 	content: "Please wait..."
+		// });
+		// loader.present().then(() => {
 			
-			this.nativeStorage.setItem('myUser', { userName: username })
-				.then(
-					() =>  {
-						loader.dismiss();
-						this.userSeted = true;
-					},
-					error => console.error('Error storing item', error)
-				);
-		});
-
-
+		// 	this.nativeStorage.setItem('myUser', { userName: username })
+		// 		.then(
+		// 			() =>  {
+		// 				loader.dismiss();
+		// 				this.userSeted = true;
+		// 			},
+		// 			error => console.error('Error storing item', error)
+		// 		);
+		// });
+		this.userName = username;
+		this.userSeted = true;
 	}
 
 	deconnetion(){
