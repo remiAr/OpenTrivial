@@ -34,8 +34,8 @@ export class LoginPage {
 			this.nativeStorage.getItem('myUser')
 				.then(
 					data => {
+						this.userName = data.userName;
 						this.userSeted = true;
-						alert(JSON.stringify(data));
 						loader.dismiss();
 					},
 					error => console.error(error)
@@ -48,11 +48,7 @@ export class LoginPage {
 			content: "Please wait..."
 		});
 		loader.present().then(() => {
-			/* this.nativeStorage.getItem('myUser')
-				.then(
-					data => console.log(data),
-					error => console.error(error)
-				); */
+			
 			this.nativeStorage.setItem('myUser', { userName: username })
 				.then(
 					() =>  {
@@ -65,8 +61,18 @@ export class LoginPage {
 
 
 	}
-	deconnection(){
-		
+
+	deconnetion(){
+		this.nativeStorage.clear().then(()=> {
+			this.userSeted = false;
+			this.userName = "";
+		}).catch(()=>{
+
+		});
+	}
+
+	playGame(){
+		this.navCtrl.setRoot(GamePage);
 	}
 
 
