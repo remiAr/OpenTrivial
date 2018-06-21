@@ -14,7 +14,17 @@
 
 
 <ion-content padding>
-    <ion-item>
+    <ion-item no-lines></ion-item>
+    <ion-item no-lines></ion-item>
+    <ion-title>
         {{ question.category }}
+    </ion-title>
+    <ion-item no-lines></ion-item>
+    <ion-item no-lines>
+        <div style="white-space: initial">
+            {{ question.question }}
+        </div>
     </ion-item>
+    <ion-item no-lines></ion-item>
+    <button *ngFor="let answer of answers" (click)="checkAnswer($event, answer)" ion-button block>{{ answer }}</button>
 </ion-content>

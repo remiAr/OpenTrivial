@@ -18,7 +18,7 @@ export class RestProvider {
         return new Promise(resolve => {
             this
                 .http
-                .get('https://opentdb.com/api.php?amount=5&difficulty='+difficulty+'&type=multiple')
+                .get('https://opentdb.com/api.php?amount=5&difficulty='+difficulty+'&type=multiple&encode=base64')
                 .subscribe(data => {
                     resolve(data);
                 });
