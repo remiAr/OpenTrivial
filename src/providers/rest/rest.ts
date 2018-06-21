@@ -20,11 +20,9 @@ export class RestProvider {
                 .http
                 .get('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
                 .subscribe(data => {
-                    console.log('test');
-                    console.log('data: ', data);
+                    resolve(data);
                 });
         });
-        console.log('test');
     }
 
 }

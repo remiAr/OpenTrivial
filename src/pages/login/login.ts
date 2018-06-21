@@ -23,7 +23,8 @@ export class LoginPage {
 	userSeted: boolean = false;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController) {
-		this.userName = "";
+		this.userName = "Jean-Charles";
+		this.userSeted  = true;
 	}
 
 	ionViewDidLoad() {
@@ -62,13 +63,13 @@ export class LoginPage {
 		this.userSeted = true;
 	}
 
-	deconnetion(){
-		this.nativeStorage.clear().then(()=> {
-			this.userSeted = false;
-			this.userName = "";
-		}).catch(()=>{
-
-		});
+	deconnexion(){
+		// this.nativeStorage.clear().then(()=> {
+		// 	this.userSeted = false;
+		// 	this.userName = "";
+		// }).catch(()=>{});
+		this.userName = "";
+		this.userSeted = false;
 	}
 
 	playGame(){

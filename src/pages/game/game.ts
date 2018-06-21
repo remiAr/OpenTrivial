@@ -16,7 +16,13 @@ import { RestProvider } from '../../providers/rest/rest';
 })
 export class GamePage {
 
+    public questions;
+    public question;
+    public counter: number = 0;
+    
     constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider) {
+        this.questions = [];
+        this.question = { category: '' };
     }
 
     ionViewDidLoad() {
@@ -25,10 +31,25 @@ export class GamePage {
     }
 
     loadQuestions() {
-        console.log(
-            this
-                .restProvider
-                .getQuestions()
-        );
+        this
+            .restProvider
+            .getQuestions()
+            .then(data =>{
+                this.questions = data;
+                this.questions = this.questions.results;
+                this.loadQuestion();
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
+
+    loadQuestion() {
+        this.question = this.questions[this.counter];
+    }
+
+    nextQuestion() {
+        this.counter++;
+    }
+
 }
