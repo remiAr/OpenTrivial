@@ -21,6 +21,7 @@ export class LoginPage {
 	avatar: string;
 	userName: string;
 	userSeted: boolean = false;
+	gaming: string = "medium";
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController) {
 		this.userName = "Jean-Charles";
@@ -73,7 +74,7 @@ export class LoginPage {
 	}
 
 	playGame(){
-		this.navCtrl.setRoot(GamePage);
+		this.navCtrl.setRoot(GamePage, {difficulty: this.gaming});
 	}
 
 

@@ -19,21 +19,23 @@ export class GamePage {
     public questions;
     public question;
     public counter: number = 0;
+    public difficulty: string;
     
     constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider) {
         this.questions = [];
-        this.question = { category: '' };
+        this.question = {};
+        this.difficulty = this.navParams.get('difficulty');
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad GamePage');
-        this.loadQuestions();
+        this.loadQuestions(this.difficulty);
     }
 
-    loadQuestions() {
+    loadQuestions(difficulty) {
         this
             .restProvider
-            .getQuestions()
+            .getQuestions(difficulty)
             .then(data =>{
                 this.questions = data;
                 this.questions = this.questions.results;

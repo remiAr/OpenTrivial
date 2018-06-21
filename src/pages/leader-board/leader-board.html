@@ -1,0 +1,32 @@
+<!--
+  Generated template for the LeaderBoardPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>leaderBoard</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<table>
+		<tr style="font-weight: bold; text-align: center;">
+			<td>pseudo</td>
+			<td>time</td>
+			<td>score</td>
+		</tr>
+
+		<tr *ngFor="let res of result">
+			<td>{{res.nickname}}</td>
+			<td>{{res.time}}</td>
+			<td>{{res.score}}</td>
+		</tr>
+
+	</table>
+
+</ion-content>

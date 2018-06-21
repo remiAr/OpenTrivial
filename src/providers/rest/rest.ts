@@ -14,11 +14,22 @@ export class RestProvider {
 
     }
 
-    getQuestions() {
+    getQuestions(difficulty) {
         return new Promise(resolve => {
             this
                 .http
-                .get('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
+                .get('https://opentdb.com/api.php?amount=5&difficulty='+difficulty+'&type=multiple')
+                .subscribe(data => {
+                    resolve(data);
+                });
+        });
+    }
+
+    getLeaderBoard(){
+        return new Promise(resolve => {
+            this
+                .http
+                .get('https://leaderboard.lp1.eu/api/json')
                 .subscribe(data => {
                     resolve(data);
                 });

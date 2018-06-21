@@ -23,6 +23,14 @@
 				<ion-title>{{userName}}</ion-title>
 			</ion-item>
 			<ion-item>
+					<ion-label>Difficulty</ion-label>
+					<ion-select [(ngModel)]="gaming">
+					  <ion-option value="easy">EASY</ion-option>
+					  <ion-option value="medium">MEDIUM</ion-option>
+					  <ion-option value="hard">HARD</ion-option>
+					</ion-select>
+			</ion-item>
+			<ion-item>
 				<button ion-button (click)="playGame()">Play</button>
 			</ion-item>
 			<ion-item>

@@ -12,13 +12,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { RestProvider } from '../providers/rest/rest';
 import { GamePage } from '../pages/game/game';
+import { LeaderBoardPage } from '../pages/leader-board/leader-board';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     LoginPage,
-    GamePage
+    GamePage,
+    LeaderBoardPage,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { GamePage } from '../pages/game/game';
     MyApp,
     HomePage,
     LoginPage,
-    GamePage
+    GamePage,
+    LeaderBoardPage,
   ],
   providers: [
     StatusBar,
