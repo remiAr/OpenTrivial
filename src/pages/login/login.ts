@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { GamePage } from '../game/game';
@@ -22,55 +22,81 @@ export class LoginPage {
 	userName: string;
 	userSeted: boolean = false;
 	difficulty: string = "medium";
+	platform: string;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController, private plt: Platform) {
 		this.userName = "";
+		this.platform = (plt.is('android') || plt.is('ios') ? "phone" : "computer");
 	}
 
 	ionViewDidLoad() {
-		const loader = this.loadingCtrl.create({
-			content: "Please wait..."
-		});
-		loader.present().then(() => {
-			this.nativeStorage.getItem('myUser')
-				.then(
-					data => {
-						loader.dismiss();
-						this.userName = data.userName;
-						this.userSeted = true;
-					},
-					error => loader.dismiss()
-				);
-		});
+		if (this.platform == "phone") {
+			const loader = this.loadingCtrl.create({
+				content: "Please wait..."
+			});
+			loader.present().then(() => {
+				this.nativeStorage.getItem('myUser')
+					.then(
+						data => {
+							loader.dismiss();
+							this.userName = data.userName;
+							this.userSeted = true;
+						},
+						error => loader.dismiss()
+					);
+			});
+		}
+		else {
+			this.userName = "";
+			this.userSeted = false;
+		}
+
 	}
 
 	setUser(username) {
+		console.log(this.platform);
 		const loader = this.loadingCtrl.create({
 			content: "Please wait..."
 		});
 		loader.present().then(() => {
-			
-			this.nativeStorage.setItem('myUser', { userName: username })
-				.then(
-					() =>  {
-						loader.dismiss();
-						this.userName = username;
-						this.userSeted = true;
-					},
-					error => loader.dismiss()
-				);
+
+			if (this.platform == "phone") {
+				this.nativeStorage.setItem('myUser', { userName: username })
+					.then(
+						() => {
+							loader.dismiss();
+							this.userName = username;
+							this.userSeted = true;
+						},
+						error => loader.dismiss()
+					);
+			}
+			else {
+				this.userName = username;
+				this.userSeted = true;
+				loader.dismiss();
+			}
+
+
 		});
 	}
 
-	deconnexion(){
-		this.nativeStorage.clear().then(()=> {
-		 	this.userSeted = false;
+	deconnexion() {
+		if (this.platform == "phone") {
+			this.nativeStorage.clear().then(() => {
+				this.userSeted = false;
+				this.userName = "";
+			}).catch(() => { });
+		}
+		else {
+			this.userSeted = false;
 			this.userName = "";
-		}).catch(()=>{});
+		}
+
 	}
 
-	playGame(){
-		this.navCtrl.setRoot(GamePage, {difficulty: this.difficulty, userName: this.userName});
+	playGame() {
+		this.navCtrl.setRoot(GamePage, { difficulty: this.difficulty, userName: this.userName });
 	}
 
 
