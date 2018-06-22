@@ -22,6 +22,7 @@ export class LoginPage {
 	userName: string;
 	userSeted: boolean = false;
 	difficulty: string = "medium";
+	type: string = "multiple";
 	platform: string;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController, private plt: Platform) {
@@ -96,7 +97,7 @@ export class LoginPage {
 	}
 
 	playGame() {
-		this.navCtrl.setRoot(GamePage, { difficulty: this.difficulty, userName: this.userName });
+		this.navCtrl.setRoot(GamePage, { difficulty: this.difficulty, type: this.type, userName: this.userName });
 	}
 
 

@@ -22,6 +22,7 @@ export class GamePage {
     public answers;
     public counter: number = 0;
     public difficulty: string;
+    public type: string;
     public correctAnswer: boolean = false;
     public userHasClicked: boolean = false;
     public arrayPoints = {};
@@ -34,6 +35,7 @@ export class GamePage {
         this.question = {};
         this.answers = [];
         this.difficulty = this.navParams.get('difficulty');
+        this.type = this.navParams.get('type');
         this.userName = navParams.get('userName');
         this.arrayPoints = {
             "easy": 5,
@@ -44,14 +46,14 @@ export class GamePage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad GamePage');
-        this.loadQuestions(this.difficulty);
+        this.loadQuestions(this.difficulty, this.type);
         this.timer()
     }
 
-    loadQuestions(difficulty) {
+    loadQuestions(difficulty, type) {
         this
             .restProvider
-            .getQuestions(difficulty)
+            .getQuestions(difficulty, type)
             .then(data => {
                 this.questions = data;
                 this.questions = this.questions.results;

@@ -22,23 +22,47 @@
 			<ion-item>
 				<ion-title>{{userName}}</ion-title>
 			</ion-item>
-			<ion-list radio-group [(ngModel)]="difficulty">
-				<ion-list-header>
-					Difficulty
-				</ion-list-header>
-				<ion-item style="font-size: 14px;">
-					<ion-label>Easy</ion-label>
-					<ion-radio value="easy"></ion-radio>
-				</ion-item>
-				<ion-item style="font-size: 14px;">
-					<ion-label>Medium</ion-label>
-					<ion-radio value="medium"></ion-radio>
-				</ion-item>
-				<ion-item style="font-size: 14px;">
-					<ion-label>Hard</ion-label>
-					<ion-radio value="hard"></ion-radio>
-				</ion-item>
-			</ion-list>
+			<ion-grid>
+				<ion-row>
+					<ion-col col-6>
+						<ion-list radio-group [(ngModel)]="difficulty">
+							<ion-list-header>
+								Difficulty
+							</ion-list-header>
+							<ion-item style="font-size: 14px;">
+								<ion-label>Easy</ion-label>
+								<ion-radio value="easy"></ion-radio>
+							</ion-item>
+							<ion-item style="font-size: 14px;">
+								<ion-label>Medium</ion-label>
+								<ion-radio value="medium"></ion-radio>
+							</ion-item>
+							<ion-item style="font-size: 14px;">
+								<ion-label>Hard</ion-label>
+								<ion-radio value="hard"></ion-radio>
+							</ion-item>
+						</ion-list>
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col col-6>
+						<ion-list radio-group [(ngModel)]="type">
+							<ion-list-header>
+								Type
+							</ion-list-header>
+							<ion-item style="font-size: 14px;">
+								<ion-label>Multiple choice</ion-label>
+								<ion-radio value="multiple"></ion-radio>
+							</ion-item>
+							<ion-item style="font-size: 14px;">
+								<ion-label>True / False</ion-label>
+								<ion-radio value="boolean"></ion-radio>
+							</ion-item>
+						</ion-list>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+
 			<button ion-button (click)="playGame()">Play</button>
 			<br>
 			<button ion-button (click)="deconnexion()">Logout</button>

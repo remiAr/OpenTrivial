@@ -14,11 +14,11 @@ export class RestProvider {
 
     }
 
-    getQuestions(difficulty) {
+    getQuestions(difficulty, type) {
         return new Promise(resolve => {
             this
                 .http
-                .get('https://opentdb.com/api.php?amount=20&difficulty='+difficulty+'&type=multiple&encode=base64')
+                .get('https://opentdb.com/api.php?amount=20&difficulty='+difficulty+'&type='+type+'&encode=base64')
                 .subscribe(data => {
                     resolve(data);
                 });
