@@ -21,8 +21,8 @@ export class LeaderBoardPage {
   public time: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider) {
-    this.score = navParams.get('score');
-    this.time = navParams.get('time');
+    /* this.score = navParams.get('score');
+    this.time = navParams.get('time'); */
   }
 
   ionViewDidLoad() {
@@ -35,7 +35,6 @@ export class LeaderBoardPage {
         // Ascending: first age less than the previous
         return obj1.score + obj2.score;
       });
-      console.log(this.result);
     });
   }
 

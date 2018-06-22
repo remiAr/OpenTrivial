@@ -7,6 +7,9 @@
 <ion-header>
 
 	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
 		<ion-title>leaderBoard</ion-title>
 	</ion-navbar>
 
@@ -15,9 +18,23 @@
 
 <ion-content padding>
 	<div>
-		Vous avez fais {{score}} en {{time}} secondes
+		<!-- Vous avez fais {{score}} en {{time}} secondes -->
 	</div>
-	<table>
+
+	<ion-item *ngFor="let res of result">
+		<img width="60" src="https://api.adorable.io/avatars/285/{{res.nickname}}.png" item-start>
+		<ion-grid>
+			<ion-row>
+				<ion-col col-12 style="text-align: center;">User : {{ res.nickname }}</ion-col>
+				<ion-col col-6 style="text-align: center;">Time : {{ res.time }}</ion-col>
+				<ion-col col-6 style="text-align: center;">Score : {{ res.score }}</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-item>
+
+
+
+	<!-- <table>
 		<tr style="font-weight: bold; text-align: center;">
 			<td>pseudo</td>
 			<td>time</td>
@@ -30,6 +47,6 @@
 			<td>{{res.score}}</td>
 		</tr>
 
-	</table>
+	</table> -->
 
 </ion-content>
