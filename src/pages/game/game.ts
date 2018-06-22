@@ -20,6 +20,7 @@ export class GamePage {
     public questions;
     public question;
     public answers;
+    public color: string;
     public counter: number = 0;
     public difficulty: string;
     public type: string;
@@ -34,6 +35,7 @@ export class GamePage {
         this.questions = [];
         this.question = {};
         this.answers = [];
+        this.color = 'primary';
         this.difficulty = this.navParams.get('difficulty');
         this.type = this.navParams.get('type');
         this.userName = navParams.get('userName');
@@ -70,7 +72,11 @@ export class GamePage {
         this.question.category = atob(this.question.category);
         this.question.question = atob(this.question.question);
 
-        this.shuffleFisherYates();
+        if (this.type !== 'boolean') {
+            this.shuffleFisherYates();
+        } else {
+            this.answers = ['True', 'False'];
+        }
     }
 
     shuffleFisherYates() {
@@ -91,25 +97,26 @@ export class GamePage {
         this.answers = array;
     }
 
-    checkAnswer(event, answer) {
+    checkAnswer(event, answer, i) {
         if (this.userHasClicked === false) {
             this.userHasClicked = true;
 
             if (answer === atob(this.question.correct_answer)) {
-                event.target.style.backgroundColor = 'green';
-                this.score = this.score + this.arrayPoints[this.difficulty]
+                document.getElementById('button_' + i).style.backgroundColor = "#32db64";
+                this.score = this.score + this.arrayPoints[this.difficulty];
             } else {
-                event.target.style.backgroundColor = 'red';
-                this.score = this.score - this.arrayPoints[this.difficulty]
+                document.getElementById('button_' + i).style.backgroundColor = "#f53d3d";
+                this.score = this.score - this.arrayPoints[this.difficulty];
             }
 
             setTimeout(() => {
                 this.nextQuestion();
-            }, 500);
+            }, 1000);
         }
     }
 
     nextQuestion() {
+        this.resetButtonsColors(this.answers.length);
 
         if (this.counter == 19) {
             const user = {
@@ -142,4 +149,11 @@ export class GamePage {
         timer();
     }
 
+    resetButtonsColors(answersLength: number) {
+        if (answersLength > 0) {
+            for (let i = 0; i < answersLength; i++) {
+                document.getElementById('button_' + i).style.backgroundColor = "#488aff";
+            }
+        }
+    }
 }

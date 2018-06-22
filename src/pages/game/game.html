@@ -1,32 +1,34 @@
-<!--
-  Generated template for the GamePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
     <ion-navbar>
-        <ion-title>OpenTrivial</ion-title>
+        <ion-title>Question {{ counter + 1 }}/20</ion-title>
     </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-    <ion-item no-lines>temps: {{time}}</ion-item>
-    <ion-item no-lines>Score : {{score}}</ion-item>
+    <ion-item no-lines>
+        <ion-icon name="md-timer" item-start></ion-icon>
+        Time
+        <ion-badge item-end>{{ time }}</ion-badge>
+    </ion-item>
+    <ion-item no-lines>
+        <ion-icon name="md-happy" item-start></ion-icon>
+        Score
+        <ion-badge item-end>{{ score }}</ion-badge>
+    </ion-item>
+    <ion-item no-lines></ion-item>
     <ion-title>
-        <div style="white-space: initial">
+        <div style="white-space: initial; text-align: center;" padding>
             {{ question.category }}
         </div>
     </ion-title>
-    <ion-item no-lines></ion-item>
     <ion-item no-lines>
         <div style="white-space: initial">
             {{ question.question }}
         </div>
     </ion-item>
-    <ion-item no-lines></ion-item>
-    <button *ngFor="let answer of answers" (click)="checkAnswer($event, answer)" ion-button block>{{ answer }}</button>
+    <button *ngFor="let answer of answers; let i = index" id="button_{{i}}" (click)="checkAnswer($event, answer, i)" ion-button block>
+        <div style="white-space: initial">
+            {{ answer }}
+        </div>
+    </button>
 </ion-content>

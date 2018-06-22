@@ -25,7 +25,13 @@ export class LoginPage {
 	type: string = "multiple";
 	platform: string;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, private loadingCtrl: LoadingController, private plt: Platform) {
+	constructor(
+		public navCtrl: NavController,
+		public navParams: NavParams,
+		private nativeStorage: NativeStorage,
+		private loadingCtrl: LoadingController,
+		private plt: Platform
+	) {
 		this.userName = "";
 		this.platform = (plt.is('android') || plt.is('ios') ? "phone" : "computer");
 	}
