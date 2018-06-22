@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
 import { LeaderBoardPage } from '../leader-board/leader-board';
+import { Network } from '@ionic-native/network';
 
 /**
  * Generated class for the GamePage page.
@@ -31,7 +32,7 @@ export class GamePage {
     public time: number = 0;
     public userName: string;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider, private network: Network, public loadingCtrl: LoadingController) {
         this.questions = [];
         this.question = {};
         this.answers = [];
@@ -119,16 +120,31 @@ export class GamePage {
         this.resetButtonsColors(this.answers.length);
 
         if (this.counter == 19) {
-            const user = {
-                nickname: this.userName,
-                score: this.score,
-                time: this.time,
-                avatar_url: "https://api.adorable.io/avatars/285/"+this.userName+".png",
-            };
-            this.restProvider.setScoreUser(user).then(()=>{
-                this.navCtrl.setRoot(LeaderBoardPage, {score: this.score, time: this.time});
-            });
-            
+            if (this.network.type == "none") {
+                const loader = this.loadingCtrl.create({
+                    content: "Please wait..."
+                });
+                loader.present().then(() => {
+                    this.network.onchange().subscribe(() => {
+                        if (this.network.type != "none") {
+                            loader.dismiss();
+                            const user = {
+                                nickname: this.userName,
+                                score: this.score,
+                                time: this.time,
+                                avatar_url: "https://api.adorable.io/avatars/285/" + this.userName + ".png",
+                            };
+                            this.restProvider.setScoreUser(user).then(() => {
+                                this.navCtrl.setRoot(LeaderBoardPage, { score: this.score, time: this.time });
+                            });
+                        }
+                    });
+                    
+                });
+                
+            }
+
+
         } else {
             this.userHasClicked = false;
             this.counter++;

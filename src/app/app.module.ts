@@ -13,6 +13,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { RestProvider } from '../providers/rest/rest';
 import { GamePage } from '../pages/game/game';
 import { LeaderBoardPage } from '../pages/leader-board/leader-board';
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { LeaderBoardPage } from '../pages/leader-board/leader-board';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativeStorage,
     RestProvider,
+    Network
   ]
 })
 export class AppModule {}
