@@ -3,13 +3,7 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { GamePage } from '../game/game';
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { File } from '@ionic-native/file';
 
 @IonicPage()
 @Component({
@@ -21,16 +15,18 @@ export class LoginPage {
 	avatar: string;
 	userName: string;
 	userSeted: boolean = false;
-	difficulty: string = "medium";
+	difficulty: string = "easy";
 	type: string = "multiple";
 	platform: string;
+	mode: string;
 
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private nativeStorage: NativeStorage,
 		private loadingCtrl: LoadingController,
-		private plt: Platform
+		private plt: Platform,
+		// public file: File
 	) {
 		this.userName = "";
 		this.platform = (plt.is('android') || plt.is('ios') ? "phone" : "computer");
@@ -41,23 +37,23 @@ export class LoginPage {
 			const loader = this.loadingCtrl.create({
 				content: "Please wait..."
 			});
-			loader.present().then(() => {
-				this.nativeStorage.getItem('myUser')
-					.then(
-						data => {
+
+			loader
+				.present()
+				.then(() => {
+					this
+						.nativeStorage
+						.getItem('myUser')
+						.then(data => {
 							loader.dismiss();
 							this.userName = data.userName;
 							this.userSeted = true;
-						},
-						error => loader.dismiss()
-					);
-			});
-		}
-		else {
-			this.userName = "";
+						}, error => loader.dismiss());
+				});
+		} else {
+			this.userName = "Player";
 			this.userSeted = false;
 		}
-
 	}
 
 	setUser(username) {
@@ -83,12 +79,10 @@ export class LoginPage {
 				this.userSeted = true;
 				loader.dismiss();
 			}
-
-
 		});
 	}
 
-	deconnexion() {
+	logout() {
 		if (this.platform == "phone") {
 			this.nativeStorage.clear().then(() => {
 				this.userSeted = false;
@@ -99,12 +93,28 @@ export class LoginPage {
 			this.userSeted = false;
 			this.userName = "";
 		}
-
 	}
 
-	playGame() {
-		this.navCtrl.setRoot(GamePage, { difficulty: this.difficulty, type: this.type, userName: this.userName });
-	}
+	playGame(mode: string) {
+		/*** Android file system ***/
+		// const appPath = this.file.applicationDirectory;
+		// const imgsPath = appPath + 'assets/imgs/';
 
+		/*** Alerts 'imgs/ exists' on ***/
+		// this
+		// 	.file
+		// 	.checkDir(imgsPath, 'imgs/')
+		// 	.then(_ => alert('imgs/ exists'))
+		// 	.catch(err => alert('imgs/ doesn\'t exist'));
+
+		/*** Catches the error ... ***/
+		// this
+		// 	.file
+		// 	.checkFile(imgsPath, 'logo.png')
+		// 	.then(_ => alert('logo.png exists'))
+		// 	.catch(err => alert('logo.png doesn\'t exist'));
+
+		this.navCtrl.setRoot(GamePage, { difficulty: this.difficulty, type: this.type, userName: this.userName, mode });
+	}
 
 }

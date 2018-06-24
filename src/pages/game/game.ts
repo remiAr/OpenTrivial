@@ -4,13 +4,6 @@ import { RestProvider } from '../../providers/rest/rest';
 import { LeaderBoardPage } from '../leader-board/leader-board';
 import { Network } from '@ionic-native/network';
 
-/**
- * Generated class for the GamePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
     selector: 'page-game',
@@ -31,14 +24,22 @@ export class GamePage {
     public score: number = 0;
     public time: number = 0;
     public userName: string;
+    public mode: string;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider, private network: Network, public loadingCtrl: LoadingController) {
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public restProvider: RestProvider,
+        private network: Network,
+        public loadingCtrl: LoadingController,
+    ) {
         this.questions = [];
         this.question = {};
         this.answers = [];
         this.color = 'primary';
         this.difficulty = this.navParams.get('difficulty');
         this.type = this.navParams.get('type');
+        this.mode = this.navParams.get('mode');
         this.userName = navParams.get('userName');
         this.arrayPoints = {
             "easy": 5,
@@ -49,17 +50,24 @@ export class GamePage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad GamePage');
-        this.loadQuestions(this.difficulty, this.type);
+
+        if (this.mode === 'online') {
+            this.loadQuestionsFromAPI(this.difficulty, this.type);
+        } else {
+            this.loadQuestionsFromFile();
+        }
+
         this.timer()
     }
 
-    loadQuestions(difficulty, type) {
+    loadQuestionsFromAPI(difficulty, type) {
         this
             .restProvider
             .getQuestions(difficulty, type)
             .then(data => {
                 this.questions = data;
                 this.questions = this.questions.results;
+
                 this.loadQuestion();
             })
             .catch(error => {
@@ -67,25 +75,26 @@ export class GamePage {
             })
     }
 
+    loadQuestionsFromFile() {}
+
     loadQuestion() {
         this.question = this.questions[this.counter];
-
         this.question.category = atob(this.question.category);
         this.question.question = atob(this.question.question);
 
         if (this.type !== 'boolean') {
-            this.shuffleFisherYates();
+            let answers = [];
+
+            answers.push(atob(this.question.correct_answer));
+            this.question.incorrect_answers.forEach(answer => { answers.push(atob(answer)) });
+
+            this.answers = this.shuffleFisherYates(answers);
         } else {
             this.answers = ['True', 'False'];
         }
     }
 
-    shuffleFisherYates() {
-        const array = [];
-
-        array.push(atob(this.question.correct_answer));
-        this.question.incorrect_answers.forEach(answer => { array.push(atob(answer)) });
-
+    shuffleFisherYates(array) {
         let m = array.length, t, i;
 
         while (m) {
@@ -95,7 +104,7 @@ export class GamePage {
             array[i] = t;
         }
 
-        this.answers = array;
+        return array;
     }
 
     checkAnswer(event, answer, i) {
@@ -139,12 +148,8 @@ export class GamePage {
                             });
                         }
                     });
-                    
                 });
-                
             }
-
-
         } else {
             this.userHasClicked = false;
             this.counter++;
@@ -172,4 +177,5 @@ export class GamePage {
             }
         }
     }
+
 }
